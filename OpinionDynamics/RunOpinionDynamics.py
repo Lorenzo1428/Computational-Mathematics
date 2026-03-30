@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
 import OpinionDynamicsModule
 
-epsi = 0.2
+epsi = 0.1
 issym = False
-dt = 0.1
+dt = 0.05
 T = 5
 dim = 10
 init_distribution = 2
 x = OpinionDynamicsModule.get_init_distributions(10, 2)
 X, mean = OpinionDynamicsModule.heun_step(x, dt, T, epsi, issym)
+print(mean[:, 3])
 plt.plot(X)
 plt.xlabel("Time steps")
 plt.ylabel("Opinion Value")

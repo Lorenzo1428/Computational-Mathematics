@@ -61,5 +61,5 @@ def heun_step(x, dt, T, epsi, issym):
 
 def findEigMul(K):
     eigvals, eigvecs = np.linalg.eig(K)
-    alg_mul = np.where(np.abs(eigvals - eigvals[-1]) < 1e-6)[0]
+    alg_mul = np.where(np.abs(eigvals - 1.0) < 1e-6)[0]
     return np.linalg.matrix_rank(eigvecs[:, alg_mul])
