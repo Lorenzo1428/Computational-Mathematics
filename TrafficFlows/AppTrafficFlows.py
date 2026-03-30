@@ -4,7 +4,7 @@ import plotly.express as px
 import streamlit as st
 
 # Import your core functions (ensure the filename matches exactly)
-from ModuleTrafficFlows import V_func, traffic_flow
+from TrafficFlowsModule import V_func, traffic_flow
 
 # Page configuration
 st.set_page_config(page_title="Traffic Simulator", layout="wide")

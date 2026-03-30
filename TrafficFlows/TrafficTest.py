@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from ModuleTrafficFlows import V_func, traffic_flow
+from TrafficFlowsModule import V_func, traffic_flow
 
 N = 90
 L = 1500

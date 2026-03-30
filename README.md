@@ -56,5 +56,25 @@ This non-local information allows the AV to anticipate braking and dampen the st
 
 ---
 
-### Credits
-The Applications are made with the help of Google Gemini to provide a simple view of the main results.
+### Requirements
+To run the simulations and the web applications, you will need the following Python libraries installed:
+- `numpy`
+- `scipy`
+- `matplotlib`
+- `pandas`
+- `plotly`
+- `streamlit`
+
+*(You can install them via pip: `pip install numpy scipy matplotlib pandas plotly streamlit`)*
+
+---
+
+### Repository Structure & How to Run
+
+* **Core Modules:** `TrafficFlowsModule.py` and `OpinionDynamicsModule.py` contain the core mathematical functions and numerical integration logic.
+* **Interactive Apps:** The files prefixed with `App-` are interactive web applications built with the Streamlit framework. To launch an app, open your terminal and run:
+  ```bash
+  streamlit run AppName.py
+
+* Test Scripts: The other Python scripts in the repository are standalone tests designed to visualize numerical results, debug, and experiment with the variables.
+* `Note`: The Applications are made with the help of Google Gemini just for this scope.
