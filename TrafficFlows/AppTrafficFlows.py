@@ -2,15 +2,11 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-
-# Import your core functions (ensure the filename matches exactly)
 from TrafficFlowsModule import V_func, traffic_flow
 
-# Page configuration
 st.set_page_config(page_title="Traffic Simulator", layout="wide")
 st.title("🚗 Traffic Flow Simulation (Ring Road)")
 
-# --- SIDEBAR FOR PARAMETERS ---
 with st.sidebar:
     st.header("Model Parameters")
     N = st.slider("Number of vehicles (N)", 10, 200, 90)
@@ -27,39 +23,29 @@ with st.sidebar:
     isheun = st.checkbox("Use Heun's method", value=False)
     isauto = st.checkbox("Active autonomous vehicle", value=False)
 
-# --- RUN SIMULATION ---
 if st.button("Run Simulation", type="primary"):
     with st.spinner("Computing equations..."):
-        # Initial data generation
-        # endpoint=False ensures the first and last car don't overlap on a closed ring
         pos = np.linspace(0, L, N, endpoint=False)
         vel = V_func(L / N) * np.ones(N)
-
-        # Run your core engine
         X, V = traffic_flow(
             pos, vel, dt, T, L, N, alpha, beta, ni, pert_time, isheun, isauto
         )
 
-        # Downsampling: 1 frame every 50 time steps to keep the browser responsive
         sampling_step = 50
         X_downsampled = X[::sampling_step, :]
         V_downsampled = V[::sampling_step, :]
         num_frames = X_downsampled.shape[0]
 
-        # Map linear positions to a circle (radius = 1)
         theta = 2 * np.pi * (X_downsampled / L)
         x_circ = np.cos(theta)
         y_circ = np.sin(theta)
 
-        # The index of the autonomous vehicle from your function
         k_index = 10
 
-        # Build a tidy DataFrame for Plotly
         data = []
         for t_idx in range(num_frames):
             real_time = round(t_idx * dt * sampling_step, 1)
             for auto_idx in range(N):
-                # Assign categories for the legend/colors based on 'isauto' status
                 if isauto:
                     car_type = "Autonomous" if auto_idx == k_index else "Human-driven"
                 else:
@@ -79,7 +65,6 @@ if st.button("Run Simulation", type="primary"):
         df = pd.DataFrame(data)
 
     with st.spinner("Rendering animation..."):
-        # Configure Plotly chart based on whether the AV is active
         if isauto:
             fig = px.scatter(
                 df,
@@ -108,7 +93,6 @@ if st.button("Run Simulation", type="primary"):
                 height=700,
             )
 
-        # Marker aesthetics and axis cleanup
         fig.update_traces(marker=dict(size=12, line=dict(width=1, color="black")))
         fig.update_layout(
             xaxis=dict(showgrid=False, zeroline=False, visible=False),
@@ -116,5 +100,4 @@ if st.button("Run Simulation", type="primary"):
             plot_bgcolor="white",
         )
 
-        # Render the plot in Streamlit
         st.plotly_chart(fig, use_container_width=True)
